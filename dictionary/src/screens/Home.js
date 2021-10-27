@@ -4,24 +4,27 @@ import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
 
 export default function Home() {
   return (
     <div>
       <Navigation />
       <Container className="mainContainer">
-        Dictionary
+        <h3 className="center">Dictionary</h3>
         <Row>
-          <InputGroup className="mb-3">
-            <FormControl
-              placeholder="Recipient's username"
-              aria-label="Recipient's username"
-              aria-describedby="basic-addon2"
-            />
-            <Button variant="dark" id="button-addon2">
-              Search
-            </Button>
-          </InputGroup>
+          <Col>
+            <Form.Label>Search a word</Form.Label>
+            <InputGroup className="mb-3">
+              <FormControl
+                placeholder="Enter word"
+              />
+              <Button variant="dark" id="button-addon2">
+                Search
+              </Button>
+            </InputGroup>
+          </Col>
         </Row>
       </Container>
 

@@ -14,9 +14,10 @@ code {
 
 .container.mainContainer {
   margin-top: 20px;
+  background-color: lightgray;
+  height: 100vh;
+}
+
+.center {
   text-align: center;
-  background-color: grey;
-  position: absolute;
-    width: 100%;
-    height: 100%;
 }
