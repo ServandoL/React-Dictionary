@@ -19,5 +19,26 @@ code {
 }
 
 .center {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.dictionary {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.cardsCenter {
+  text-align:center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+}
+
+.block-example {
+  width: 6rem;
+  height: 6rem;
+  margin: 0.5rem;
+  background-color: #eee;
+  display: inline-block;
 }

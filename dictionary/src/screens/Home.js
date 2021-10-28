@@ -6,15 +6,16 @@ import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
+import Cards from "../components/cards/cards";
 
 export default function Home() {
   return (
     <div>
       <Navigation />
       <Container className="mainContainer">
-        <h3 className="center">Dictionary</h3>
-        <Row>
-          <Col>
+        <h3 className="center dictionary">Dictionary</h3>
+        <Row className="center">
+          <Col md={4}>
             <Form.Label>Search a word</Form.Label>
             <InputGroup className="mb-3">
               <FormControl
@@ -26,8 +27,10 @@ export default function Home() {
             </InputGroup>
           </Col>
         </Row>
-      </Container>
 
+        <Cards />
+
+      </Container>
     </div>
   );
 }
