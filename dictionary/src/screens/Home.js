@@ -13,6 +13,7 @@ import axios from "axios";
 export default function Home() {
   const [searchWord, setSearchWord] = useState("");
   const [toggleCards, setToggleCard] = useState(false);
+  const [pos, setPos] = useState([]);
   let baseUrl = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
   const handleChange = (event) => {
@@ -21,8 +22,18 @@ export default function Home() {
 
   const submit = () => {
     axios.get(baseUrl + searchWord).then(function (response) {
-      console.log(response.data)
-    })
+      let posTemp = [];
+      // console.log('response.data',response.data)
+      for (const element of response.data) {
+        // console.log('element',element)
+        for (const meanings of element.meanings) {
+          // console.log('meanings', meanings.partOfSpeech)
+          posTemp.push(meanings.partOfSpeech);
+        }
+      }
+      // console.log(posTemp);
+      setPos(posTemp);
+    });
     setToggleCard(true);
   };
 
@@ -48,9 +59,17 @@ export default function Home() {
         </Row>
 
         <Row className="center">
-          {toggleCards && <Cards word={searchWord} />}
 
-          {toggleCards && <Cards word={searchWord} />}
+          {toggleCards && pos.includes("noun") && (
+            console.log("noun"),
+            <Cards word={searchWord} pos="noun" />
+          )}
+
+          {toggleCards && pos.includes("verb") && (
+            console.log("verb"),
+            <Cards word={searchWord} pos="verb" />
+          )}
+
         </Row>
         <div className="footer">
           <span>https://dictionaryapi.dev/</span>

@@ -10,6 +10,7 @@ export default function Cards(props) {
       <Card className="cardsCenter" style={{ width: "30rem" }}>
         <Card.Body>
           <Card.Title>{props.word}</Card.Title>
+          <Card.Subtitle>Part of Speech: {props.pos}</Card.Subtitle>
           <Card.Text>
             Definition 1: Some quick example text to build on the card title and
             make up the bulk of the card's content.
