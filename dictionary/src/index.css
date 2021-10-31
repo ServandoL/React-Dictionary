@@ -15,7 +15,13 @@ code {
 .container.mainContainer {
   margin-top: 20px;
   background-color: lightgray;
-  height: 100vh;
+  height: 100%;
+}
+
+div.footer {
+  background-color: lightgray;
+  height: 100px;
+  text-align: center;
 }
 
 .center {
