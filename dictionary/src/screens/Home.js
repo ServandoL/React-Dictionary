@@ -14,6 +14,7 @@ export default function Home() {
   const [searchWord, setSearchWord] = useState("");
   const [toggleCards, setToggleCard] = useState(false);
   const [pos, setPos] = useState([]);
+  const [definition, setDefinition] = useState([]);
   let baseUrl = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
   const handleChange = (event) => {
@@ -23,19 +24,25 @@ export default function Home() {
   const submit = () => {
     axios.get(baseUrl + searchWord).then(function (response) {
       let posTemp = [];
-      // console.log('response.data',response.data)
+      let definitionTemp = [];
+      // console.log('response.data', response.data)
       for (const element of response.data) {
-        // console.log('element',element)
+        // console.log('element', element)
         for (const meanings of element.meanings) {
           // console.log('meanings', meanings.partOfSpeech)
           posTemp.push(meanings.partOfSpeech);
+          // console.log('definitions', meanings.definitions[0].definition);
+          definitionTemp.push(meanings.definitions);
         }
       }
       // console.log(posTemp);
       setPos(posTemp);
+      console.log(definitionTemp);
+      setDefinition(definitionTemp);
     });
     setToggleCard(true);
   };
+
 
   return (
     <div>
@@ -60,9 +67,19 @@ export default function Home() {
 
         <Row className="center">
 
+          {/* {toggleCards && pos.includes("noun") && (
+            console.log("noun"),
+            <Cards word={searchWord} pos="noun" definition={definition[0]} />
+          )}
+
+          {toggleCards && pos.includes("verb") && (
+            console.log("verb"),
+            <Cards word={searchWord} pos="verb" definition={definition[1]} />
+          )} */}
+
           {toggleCards && pos.includes("noun") && (
             console.log("noun"),
-            <Cards word={searchWord} pos="noun" />
+            <Cards word={searchWord} pos="noun" definition={definition} />
           )}
 
           {toggleCards && pos.includes("verb") && (
