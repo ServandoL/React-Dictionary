@@ -63,11 +63,11 @@ export default function Thesaurus() {
         <Row className="center">
 
           {toggleCards && pos.includes("noun") && (
-            <Cards word={searchWord} pos="noun" />
+            <Cards word={searchWord} pos="noun" synonyms={word} />
           )}
 
           {toggleCards && pos.includes("verb") && (
-            <Cards word={searchWord} pos="verb" />
+            <Cards word={searchWord} pos="verb" synonyms={word} />
           )}
 
         </Row>

@@ -8,9 +8,9 @@ export default function Cards(props) {
     const [result, setResult] = useState({});
 
     useEffect(() => {
-        let defs = props.definitions;
-        if (defs) {
-            for (let element of defs) {
+        let syn = props.synonyms;
+        if (syn) {
+            for (let element of syn) {
                 for (let meanings of element.meanings) {
                     // console.log(meanings)
                     if (meanings.partOfSpeech === props.pos) {
@@ -19,26 +19,14 @@ export default function Cards(props) {
                 }
             }
         }
-    }, [props.definitions, props.pos]);
+    }, [props.synonyms, props.pos]);
 
-    // let renderNouns;
-    // if (Object.keys(noun).length > 0) {
-    //   if (noun.definitions.length > 0) {
-    //   renderNouns = noun?.definitions?.map((element, index) => {
-    //     return (
-    //       <ListGroupItem key={index}>Definition {index+1}: PLACEHOLDER Some quick example text to build on the card title and
-    //             make up the bulk of the card's content.</ListGroupItem>
-    //     )
-    //   })
-    // }
-    // }
-    // Above is the same as below
-    const renderDefinitions = result?.definitions?.map((element, index) => {
+    const renderSynonyms = result?.definitions?.map((element, index) => {
         return (
             <ListGroupItem key={index}>
-                <strong>Definition {index + 1}</strong>: {element.definition}
+                <strong>Synonyms {index + 1}</strong>: {element.synonyms[0] ? element.synonyms : "N/A"}
                 <br></br>
-                <strong>Example:</strong> {element.example ? element.example : "N/A"}
+                <strong>Antonyms {index + 1}</strong>: {element.antonyms[0] ? element.antonyms : "N/A"}
             </ListGroupItem>
         );
     });
@@ -50,7 +38,7 @@ export default function Cards(props) {
                     <Card.Title className="center-text">{props.word}</Card.Title>
                     <Card.Subtitle className="center-text">Part of Speech: {props.pos}</Card.Subtitle>
                     <hr />
-                    <ListGroup className="list-group-flush">{renderDefinitions}</ListGroup>
+                    <ListGroup className="list-group-flush">{renderSynonyms}</ListGroup>
                 </Card.Body>
             </Card>
         </Col>
