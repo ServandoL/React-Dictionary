@@ -13,7 +13,9 @@ import axios from "axios";
 export default function Thesaurus() {
   const [searchWord, setSearchWord] = useState("");
   const [toggleCards, setToggleCard] = useState(false);
-  const [pos, setPos] = useState([]);
+  // const [meanings, setMeanings] = useState([]);
+  const [antonyms, setAntonyms] = useState([]);
+  const [synonyms, setSynonyms] = useState([]);
   const [word, setWord] = useState([]);
   let baseUrl = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
@@ -23,18 +25,34 @@ export default function Thesaurus() {
 
   const submit = () => {
     axios.get(baseUrl + searchWord).then(function (response) {
-      let posTemp = [];
+      let synonymsTemp = [];
+      let antonymsTemp = [];
       let wordTemp = [];
 
       for (const element of response.data) {
         // console.log('element', element)
         wordTemp.push(element);
         for (const meanings of element.meanings) {
-          // console.log('meanings', meanings.partOfSpeech)
-          posTemp.push(meanings.partOfSpeech);
+          // console.log('each meaning',meanings)
+          for (const definition of meanings.definitions) {
+            // console.log(meanings.partOfSpeech)
+            // console.log('synonyms',definition.synonyms)
+            if (definition.synonyms.length > 0) {
+              synonymsTemp.push(definition.synonyms)
+            }
+            if (definition.antonyms.length > 0) {
+              antonymsTemp.push(definition.antonyms)
+            }
+            
+
+          }
         }
       }
-      setPos(posTemp);
+      // setMeanings(meaningsTemp);
+      // console.log('array of synonyms',synonymsTemp)
+      // console.log('array of antonyms', antonymsTemp)
+      setSynonyms(synonymsTemp);
+      setAntonyms(antonymsTemp);
       setWord(wordTemp);
     })
     setToggleCard(true);
@@ -62,12 +80,20 @@ export default function Thesaurus() {
         </Row>
         <Row className="center">
 
-          {toggleCards && pos.includes("noun") && (
+          {/* {toggleCards && meanings.includes("noun") && (
             <Cards word={searchWord} pos="noun" synonyms={word} />
           )}
 
-          {toggleCards && pos.includes("verb") && (
+          {toggleCards && meanings.includes("verb") && (
             <Cards word={searchWord} pos="verb" synonyms={word} />
+          )} */}
+
+          {toggleCards && antonyms.length > 0 && (
+            <Cards word={searchWord} antonyms={antonyms} />
+          )}
+
+          {toggleCards && synonyms.length > 0 && (
+            <Cards word={searchWord} synonyms={synonyms} />
           )}
 
         </Row>

@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Cards from "../components/cards/cards";
+import Alert from "react-bootstrap/Alert";
 import axios from "axios";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
   const [toggleCards, setToggleCard] = useState(false);
   const [pos, setPos] = useState([]);
   const [word, setWord] = useState([]);
+  const [error, setError] = useState({});
   let baseUrl = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
   const handleChange = (event) => {
@@ -22,25 +24,34 @@ export default function Home() {
   };
 
   const submit = () => {
-    axios.get(baseUrl + searchWord).then(function (response) {
-      let posTemp = [];
-      let wordTemp = [];
-      // console.log('response.data', response.data)
-      for (const element of response.data) {
-        // console.log('element', element)
-        wordTemp.push(element);
-        for (const meanings of element.meanings) {
-          // console.log('meanings', meanings.partOfSpeech)
-          posTemp.push(meanings.partOfSpeech);
+    axios
+      .get(baseUrl + searchWord)
+      .then(function (response) {
+        setError({});
+        console.log(Object.keys(error));
+        let posTemp = [];
+        let wordTemp = [];
+        // console.log('response.data', response.data)
+        for (const element of response.data) {
+          // console.log('element', element)
+          wordTemp.push(element);
+          for (const meanings of element.meanings) {
+            console.log('meanings', meanings.partOfSpeech)
+            posTemp.push(meanings.partOfSpeech);
+          }
         }
-      }
-      // console.log(posTemp);
-      setPos(posTemp);
-      setWord(wordTemp)
-    });
+        // console.log(posTemp);
+        setPos(posTemp);
+        setWord(wordTemp);
+      })
+      .catch((error) => {
+        if (error.response) {
+          setPos([]);
+          setError(error.response.data);
+        }
+      });
     setToggleCard(true);
   };
-
 
   return (
     <div>
@@ -65,12 +76,26 @@ export default function Home() {
 
         <Row className="center">
 
+          {Object.keys(error).length > 0 && (
+            <Alert key={1} variant="danger" className="center">
+              <p>{error?.message}<br/>{error?.resolution}</p>
+            </Alert>
+          )}
+
           {toggleCards && pos.includes("noun") && (
             <Cards word={searchWord} pos="noun" definitions={word} />
           )}
 
           {toggleCards && pos.includes("verb") && (
             <Cards word={searchWord} pos="verb" definitions={word} />
+          )}
+
+          {toggleCards && pos.includes("adjective") && (
+            <Cards word={searchWord} pos="adjective" definitions={word} />
+          )}
+
+          {toggleCards && pos.includes("abbreviation") && (
+            <Cards word={searchWord} pos="abbreviation" definitions={word} />
           )}
 
         </Row>
